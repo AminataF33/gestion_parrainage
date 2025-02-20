@@ -1,0 +1,36 @@
+
+<div class="upload-container">
+    <h2>Téléchargement de fichier</h2>
+    
+    <div class="file-section">
+      <input 
+        type="file" 
+        (change)="onFileSelected($event)"
+        [disabled]="isFileSelected"
+        class="file-input">
+      <p *ngIf="selectedFile">
+        Fichier sélectionné: {{ selectedFile?.name || '' }}
+      </p>
+    </div>
+
+    <div class="checksum-section" *ngIf="isFileSelected">
+      <label for="checksum">Entrez le checksum du fichier:</label>
+      <input 
+        type="text" 
+        id="checksum"
+        [(ngModel)]="userChecksum"
+        placeholder="Entrez le checksum"
+        class="checksum-input">
+    </div>
+
+    <button 
+      (click)="onUpload()"
+      [disabled]="!isFileSelected || !userChecksum"
+      class="upload-button">
+      Envoyer le fichier
+    </button>
+
+    <div *ngIf="message" [class]="messageClass">
+      {{ message }}
+    </div>
+  </div>
