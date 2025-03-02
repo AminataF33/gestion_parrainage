@@ -11,5 +11,5 @@ import { RouterModule } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'ProjetParrainage';
+  title = 'Système de Gestion des Élections - Sénégal';
 }

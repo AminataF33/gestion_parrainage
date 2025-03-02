@@ -1,36 +1,55 @@
+<div class="container">
+  <h2 class="title">Importation des électeurs</h2>
 
-<div class="upload-container">
-    <h2>Téléchargement de fichier</h2>
-    
-    <div class="file-section">
+  <!-- Formulaire d'upload -->
+  <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()" class="form">
+    <div class="form-group">
+      <label for="fileInput">Sélectionner un fichier CSV :</label>
       <input 
         type="file" 
-        (change)="onFileSelected($event)"
-        [disabled]="isFileSelected"
-        class="file-input">
-      <p *ngIf="selectedFile">
-        Fichier sélectionné: {{ selectedFile?.name || '' }}
-      </p>
+        id="fileInput" 
+        (change)="onFileChange($event)" 
+        class="file-input"
+        accept=".csv"
+      />
     </div>
 
-    <div class="checksum-section" *ngIf="isFileSelected">
-      <label for="checksum">Entrez le checksum du fichier:</label>
+    <!-- Erreur de fichier -->
+    <div *ngIf="fileError" class="alert alert-danger">
+      {{ fileError }}
+    </div>
+
+    <div class="form-group">
+      <label for="checksum">Checksum (SHA-256) :</label>
       <input 
         type="text" 
-        id="checksum"
-        [(ngModel)]="userChecksum"
-        placeholder="Entrez le checksum"
-        class="checksum-input">
+        id="checksum" 
+        formControlName="checksum" 
+        class="form-control" 
+        placeholder="Entrer le hash SHA-256 du fichier"
+      />
     </div>
 
-    <button 
-      (click)="onUpload()"
-      [disabled]="!isFileSelected || !userChecksum"
-      class="upload-button">
-      Envoyer le fichier
+    <button type="submit" class="btn btn-primary" [disabled]="uploadForm.invalid || !selectedFile">
+      Vérifier le fichier
     </button>
+  </form>
 
-    <div *ngIf="message" [class]="messageClass">
-      {{ message }}
-    </div>
+  <!-- Affichage du statut -->
+  <div *ngIf="uploadStatus" class="alert" [ngClass]="uploadStatus.success ? 'alert-success' : 'alert-danger'">
+    {{ uploadStatus.message }}
   </div>
+
+  <!-- Affichage des erreurs CSV -->
+  <div *ngIf="csvErrors.length > 0" class="alert alert-warning">
+    <h4>Erreurs détectées dans le fichier CSV :</h4>
+    <ul>
+      <li *ngFor="let error of csvErrors">{{ error }}</li>
+    </ul>
+  </div>
+
+  <!-- Bouton de validation finale -->
+  <div *ngIf="uploadStatus?.validable" class="validation-section">
+    <button class="btn btn-success" (click)="validerImportation()">Valider l'importation</button>
+  </div>
+</div>

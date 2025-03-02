@@ -13,6 +13,10 @@ export const routes: Routes = [
     {path : '',
      component : LoginComponent   
     },
+    {path: 'candidat',
+    loadChildren: () => import('./candidat/candidat.routes').then(m => m.CANDIDAT_ROUTES)
+    },
+    
     {path : 'login',
      component: LoginComponent    
     },
@@ -40,5 +44,4 @@ export const routes: Routes = [
             component : LogoutComponent  
            }]
     }
-   
 ];

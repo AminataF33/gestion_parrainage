@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CandidatService } from '../services/candidat.service';
+import { CandidatService } from '../shared/services/candidat.service';
 
 
 @Component({

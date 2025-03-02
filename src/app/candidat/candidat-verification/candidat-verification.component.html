@@ -1,0 +1,62 @@
+
+<div class="card">
+  <div class="card-header bg-success text-white">
+    <h2 class="mb-0">Vérification d'un parrainage</h2>
+  </div>
+  <div class="card-body">
+    <div class="alert alert-info">
+      <p>Utilisez cette interface pour vérifier l'authenticité d'un parrainage à l'aide du code de vérification.</p>
+    </div>
+    
+    <form (ngSubmit)="verifyParrainage()" #verifyForm="ngForm">
+      <div class="mb-3">
+        <label for="verificationCode" class="form-label">Code de vérification</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          id="verificationCode" 
+          name="verificationCode" 
+          [(ngModel)]="verificationCode" 
+          required
+          placeholder="Saisissez le code de vérification"
+        >
+      </div>
+      
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary" [disabled]="!verifyForm.form.valid">
+          Vérifier
+        </button>
+      </div>
+    </form>
+    
+    <div *ngIf="loading" class="text-center my-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Chargement...</span>
+      </div>
+      <p class="mt-2">Vérification en cours...</p>
+    </div>
+    
+    <div *ngIf="verificationResult && verificationResult.success" class="mt-4">
+      <div class="alert alert-success">
+        <h4 class="alert-heading">Parrainage authentique!</h4>
+        <p><strong>Électeur:</strong> {{verificationResult.electorInfo.prenom}} {{verificationResult.electorInfo.nom}}</p>
+        <p><strong>Candidat:</strong> {{verificationResult.candidatInfo.prenom}} {{verificationResult.candidatInfo.nom}} ({{verificationResult.candidatInfo.partiPolitique || 'Indépendant'}})</p>
+        <p><strong>Date du parrainage:</strong> {{verificationResult.date | date:'dd/MM/yyyy HH:mm'}}</p>
+      </div>
+    </div>
+    
+    <div *ngIf="verificationResult && !verificationResult.success" class="mt-4">
+      <div class="alert alert-danger">
+        <h4 class="alert-heading">Parrainage non trouvé!</h4>
+        <p>Le code de vérification saisi ne correspond à aucun parrainage enregistré.</p>
+      </div>
+    </div>
+    
+    <div *ngIf="verificationError" class="mt-4">
+      <div class="alert alert-danger">
+        <h4 class="alert-heading">Erreur!</h4>
+        <p>{{verificationError}}</p>
+      </div>
+    </div>
+  </div>
+</div>

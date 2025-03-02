@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterOutlet } from '@angular/router';
-import { DashbordComponent } from './dashbord.component';
 
-describe('DashbordComponent', () => {
-  let component: DashbordComponent;
-  let fixture: ComponentFixture<DashbordComponent>;
+import { CandidatNavbarComponent } from './candidat-navabr.component';
+
+describe('CandidatNavabrComponent', () => {
+  let component: CandidatNavbarComponent;
+  let fixture: ComponentFixture<CandidatNavbarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DashbordComponent]
+      imports: [CandidatNavbarComponent]
     })
     .compileComponents();
-
-    fixture = TestBed.createComponent(DashbordComponent);
+    
+    fixture = TestBed.createComponent(CandidatNavbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
