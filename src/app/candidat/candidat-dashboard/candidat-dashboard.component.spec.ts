@@ -14,11 +14,10 @@ describe('CandidatDashboardComponent', () => {
   let candidatServiceSpy: jasmine.SpyObj<CandidatService>;
 
   beforeEach(async () => {
-    // Créer des spys pour les services
+    // spys pour les services
     parrainageServiceSpy = jasmine.createSpyObj('ParrainageService', ['getCandidatStatistics', 'getCurrentPeriod', 'getCandidatParrainages', 'getDailyStatistics']);
     candidatServiceSpy = jasmine.createSpyObj('CandidatService', []);
 
-    // Fournir des valeurs simulées
     parrainageServiceSpy.getCandidatStatistics.and.returnValue(of({
       totalParrainages: 1000,
       newParrainages: 50,
@@ -51,7 +50,7 @@ describe('CandidatDashboardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CandidatDashboardComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // trigger initial data binding
+    fixture.detectChanges(); 
   });
 
   it('should create the component', () => {
@@ -59,7 +58,7 @@ describe('CandidatDashboardComponent', () => {
   });
 
   it('should load dashboard data correctly', () => {
-    // Vérifier que les données sont bien chargées
+    //verification des donnees
     expect(component.totalParrainages).toBe(1000);
     expect(component.newParrainages).toBe(50);
     expect(component.regions).toEqual(['Dakar', 'Thiès']);
@@ -71,7 +70,6 @@ describe('CandidatDashboardComponent', () => {
     spyOn(component, 'initEvolutionChart');
     component.ngOnInit();
 
-    // Attendez que le code s'exécute après la promesse asynchrone
     setTimeout(() => {
       expect(component.initEvolutionChart).toHaveBeenCalled();
       done();

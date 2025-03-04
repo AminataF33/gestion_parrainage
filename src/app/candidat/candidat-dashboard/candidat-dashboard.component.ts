@@ -20,12 +20,12 @@ export class CandidatDashboardComponent implements OnInit, AfterViewInit {
   totalParrainages: number = 0;
   newParrainages: number = 0;
   daysRemaining: number = 0;
-  targetParrainages: number = 50000; // Example target
+  targetParrainages: number = 50000; 
   progressPercentage: number = 0;
   
   regions: any[] = [];
   recentParrainages: any[] = [];
-  candidatId: number = 1; // This would come from authentication service in a real app
+  candidatId: number = 1; 
   
   dailyStatistics: any[] = [];
   evolutionChart: Chart | null = null;
@@ -41,13 +41,12 @@ export class CandidatDashboardComponent implements OnInit, AfterViewInit {
   }
   
   ngAfterViewInit(): void {
-    // Chart will be initialized after data is loaded
   }
 
   loadDashboardData(): void {
     this.loading = true;
     
-    // Get sponsorship statistics
+    //recuperer les parrainages
     this.parrainageService.getCandidatStatistics(this.candidatId)
       .subscribe({
         next: (stats) => {
@@ -56,7 +55,7 @@ export class CandidatDashboardComponent implements OnInit, AfterViewInit {
           this.regions = stats.regions;
           this.progressPercentage = Math.round((this.totalParrainages / this.targetParrainages) * 100);
           
-          // Calculate days remaining
+          //calcul des jours restants
           this.parrainageService.getCurrentPeriod()
             .subscribe({
               next: (period) => {
@@ -71,14 +70,14 @@ export class CandidatDashboardComponent implements OnInit, AfterViewInit {
                     next: (parrainages) => {
                       this.recentParrainages = parrainages;
                       
-                      // Get daily statistics for the chart
+                      // les statistiques pour chaque jour
                       this.parrainageService.getDailyStatistics(this.candidatId)
                         .subscribe({
                           next: (dailyStats: any[]) => {
                             this.dailyStatistics = dailyStats;
                             this.loading = false;
                             
-                            // Initialize chart after data is loaded
+                            // reinitialiser
                             setTimeout(() => {
                               this.initEvolutionChart();
                             }, 0);
@@ -173,7 +172,7 @@ export class CandidatDashboardComponent implements OnInit, AfterViewInit {
   }
 
   exportParrainages(): void {
-    // Convert parrainages to CSV format
+    // transformer le tableau de parrainage en un fichier de format CSV
     const headers = 'Date,Region,Departement,Code de verification\n';
     const csvData = this.recentParrainages.map(p => {
       const date = new Date(p.date).toLocaleDateString('fr-FR') + ' ' + 
@@ -186,7 +185,6 @@ export class CandidatDashboardComponent implements OnInit, AfterViewInit {
   }
 
   logout(): void {
-    // In a real application, we would call the authentication service to logout
     this.router.navigate(['/candidat']);
   }
 }

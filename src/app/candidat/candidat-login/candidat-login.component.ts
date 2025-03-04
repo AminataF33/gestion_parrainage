@@ -24,7 +24,7 @@ export class CandidatLoginComponent {
   login(): void {
     this.loginError = '';
     
-    // Call the authentication service
+  
     this.candidatService.authenticateCandidat(this.email, this.securityCode)
       .subscribe({
         next: (response) => {

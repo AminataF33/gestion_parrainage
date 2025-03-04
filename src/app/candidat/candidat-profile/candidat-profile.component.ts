@@ -17,8 +17,7 @@ export class CandidatProfileComponent implements OnInit {
   candidat: any = null;
   updateSuccess: boolean = false;
   updateError: string = '';
-  candidatId: number = 1; // This would come from authentication service in a real app
-
+  candidatId: number = 1; 
   constructor(
     private candidatService: CandidatService,
     private router: Router
@@ -48,7 +47,6 @@ export class CandidatProfileComponent implements OnInit {
     this.updateSuccess = false;
     this.updateError = '';
     
-    // In a real application, we would call the service to update the profile
     setTimeout(() => {
       this.updateSuccess = true;
     }, 1000);
