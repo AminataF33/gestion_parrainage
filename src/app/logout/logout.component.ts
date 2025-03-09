@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-logout',
@@ -10,13 +12,13 @@ import { MatDialogModule } from '@angular/material/dialog';
   styleUrl: './logout.component.css'
 })
 export class LogoutComponent {
-  constructor(public dialogRef: MatDialogRef<LogoutComponent>) {}
+  constructor(private dialogRef: MatDialogRef<LogoutComponent>) {}
 
-  onNoClick(): void {
+  onCancel() {
     this.dialogRef.close(false);
   }
 
-  onYesClick(): void {
+  onConfirm() {
     this.dialogRef.close(true);
   }
 }

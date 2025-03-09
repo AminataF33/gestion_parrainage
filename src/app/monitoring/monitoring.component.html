@@ -1,1 +1,34 @@
 <p>monitoring works!</p>
+<div class="container">
+    <h2>Suivi des Parrainages</h2>
+  
+    <!-- Filtrage journalier -->
+    <div class="form-group">
+      <label for="dateFilter">Filtrer par date</label>
+      <input type="date" id="dateFilter" [(ngModel)]="selectedDate" (ngModelChange)="onDateChange()" class="form-control" />
+    </div>
+  
+    <!-- Liste des candidats -->
+    <div *ngIf="filteredCandidates.length > 0; else noCandidates">
+      <div class="candidate" *ngFor="let candidate of filteredCandidates">
+        <div class="candidate-header">
+          <h4>{{ candidate.nom }} {{ candidate.prenom }}</h4>
+          <p>Parti Politique: {{ candidate.partiPolitique }}</p>
+          <p>Parrainages validés: {{ candidate.parrainagesValides }} / {{ candidate.totalParrainages }}</p>
+          <button class="btn btn-info" (click)="toggleDetails(candidate)">Voir Détails</button>
+        </div>
+  
+        <!-- Détails du candidat -->
+        <div *ngIf="candidate.showDetails">
+          <p><strong>Email:</strong> {{ candidate.email }}</p>
+          <p><strong>Téléphone:</strong> {{ candidate.telephone }}</p>
+          <p><strong>Slogan:</strong> {{ candidate.slogan }}</p>
+          <p><strong>URL:</strong> <a href="{{ candidate.url }}" target="_blank">{{ candidate.url }}</a></p>
+        </div>
+      </div>
+    </div>
+    <ng-template #noCandidates>
+      <p>Aucun candidat trouvé pour cette date.</p>
+    </ng-template>
+  </div>
+  

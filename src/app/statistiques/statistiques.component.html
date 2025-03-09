@@ -1,1 +1,33 @@
-<p>statistiques works!</p>
+<h2>Statistiques des Parrainages</h2>
+
+<!-- Tableau des candidats et leurs parrainages -->
+<table>
+  <thead>
+    <tr>
+      <th>Nom du Candidat</th>
+      <th>Nombre de Parrainages</th>
+      <th>Objectif</th>
+      <th>Progression (%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let candidat of results">
+      <td>{{ candidat.name }}</td>
+      <td>{{ candidat.series[candidat.series.length - 1].value }}</td>
+      <td>{{ totalParrainagesRequis }}</td>
+      <td>{{ candidat.tauxProgression }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Graphique d'évolution des parrainages -->
+<h3>Évolution des Parrainages</h3>
+<ngx-charts-line-chart
+  [view]="[700, 400]"
+  [scheme]="colorScheme"
+  [results]="results"
+  [legend]="showLegend"
+  [xAxis]="showXAxis"
+  [yAxis]="showYAxis"
+  [autoScale]="autoScale">
+</ngx-charts-line-chart>

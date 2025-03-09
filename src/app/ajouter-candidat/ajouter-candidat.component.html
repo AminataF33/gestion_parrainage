@@ -1,140 +1,140 @@
 <div class="registration-container">
-    <h2>Enregistrement d'un Candidat</h2>
+  <h2>Enregistrement d'un Candidat</h2>
 
-    <!-- Étape 1: Vérification de la carte d'électeur -->
-    <div class="verification-section" *ngIf="!candidateFound">
-      <div class="form-group">
-        <label for="voterCard">Numéro de carte d'électeur:</label>
-        <input 
-          type="text" 
-          id="voterCard"
-          [(ngModel)]="voterCardNumber"
-          class="form-input">
-        <button 
-          (click)="verifyVoterCard()"
-          class="verify-button"
-          [disabled]="!voterCardNumber">
-          Vérifier
-        </button>
-      </div>
-    </div>
-
-    <!-- Message d'erreur ou de succès pour la vérification -->
-    <div *ngIf="verificationMessage" [class]="verificationStatus">
-      {{ verificationMessage }}
-    </div>
-
-    <!-- Formulaire principal -->
-    <form *ngIf="candidateFound" [formGroup]="candidateForm" (ngSubmit)="onSubmit()" class="candidate-form">
-      <!-- Informations de base (en lecture seule) -->
-      <div class="readonly-info">
-        <h3>Informations du fichier électoral</h3>
-        <div class="info-group">
-          <label>Nom:</label>
-          <span>{{ basicInfo.nom }}</span>
-        </div>
-        <div class="info-group">
-          <label>Prénom:</label>
-          <span>{{ basicInfo.prenom }}</span>
-        </div>
-        <div class="info-group">
-          <label>Date de naissance:</label>
-          <span>{{ basicInfo.dateNaissance }}</span>
-        </div>
-      </div>
-
-      <!-- Informations complémentaires -->
-      <div class="form-section">
-        <h3>Informations complémentaires</h3>
-        
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input 
-            type="email" 
-            id="email"
-            formControlName="email"
-            class="form-input">
-          <div *ngIf="candidateForm.get('email')?.invalid && candidateForm.get('email')?.touched" class="error-message">
-            Email invalide
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="telephone">Téléphone:</label>
-          <input 
-            type="tel" 
-            id="telephone"
-            formControlName="telephone"
-            class="form-input">
-          <div *ngIf="candidateForm.get('telephone')?.invalid && candidateForm.get('telephone')?.touched" class="error-message">
-            Numéro de téléphone invalide
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="partiPolitique">Nom du parti politique:</label>
-          <input 
-            type="text" 
-            id="partiPolitique"
-            formControlName="partiPolitique"
-            class="form-input">
-        </div>
-
-        <div class="form-group">
-          <label for="slogan">Slogan du parti:</label>
-          <textarea 
-            id="slogan"
-            formControlName="slogan"
-            class="form-textarea"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="photo">Photo du candidat:</label>
-          <input 
-            type="file" 
-            id="photo"
-            (change)="onFileSelected($event)"
-            accept="image/*"
-            class="form-input">
-        </div>
-
-        <div class="colors-section">
-          <h4>Couleurs du parti</h4>
-          <div class="color-inputs">
-            <div class="color-group" *ngFor="let i of [1,2,3]">
-              <label [for]="'color'+i">Couleur {{i}}:</label>
-              <input 
-                [id]="'color'+i"
-                type="color"
-                [formControlName]="'color'+i"
-                class="color-picker">
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="url">URL d'informations:</label>
-          <input 
-            type="url" 
-            id="url"
-            formControlName="url"
-            class="form-input">
-          <div *ngIf="candidateForm.get('url')?.invalid && candidateForm.get('url')?.touched" class="error-message">
-            URL invalide
-          </div>
-        </div>
-      </div>
-
+  <!-- Étape 1: Vérification de la carte d'électeur -->
+  <div class="verification-section" *ngIf="!candidateFound">
+    <div class="form-group">
+      <label for="voterCard">Numéro de carte d'électeur:</label>
+      <input 
+        type="text" 
+        id="voterCard"
+        [(ngModel)]="voterCardNumber"
+        class="form-input">
       <button 
-        type="submit"
-        class="submit-button"
-        [disabled]="!candidateForm.valid">
-        Enregistrer la candidature
+        (click)="verifyVoterCard()"
+        class="verify-button"
+        [disabled]="!voterCardNumber">
+        Vérifier
       </button>
-    </form>
-
-    <!-- Message de confirmation -->
-    <div *ngIf="submissionMessage" [class]="submissionStatus">
-      {{ submissionMessage }}
     </div>
   </div>
+
+  <!-- Message d'erreur ou de succès pour la vérification -->
+  <div *ngIf="verificationMessage" [class]="verificationStatus">
+    {{ verificationMessage }}
+  </div>
+
+  <!-- Formulaire principal -->
+  <form *ngIf="candidateFound" [formGroup]="candidateForm" (ngSubmit)="onSubmit()" class="candidate-form">
+    <!-- Informations de base (en lecture seule) -->
+    <div class="readonly-info">
+      <h3>Informations du fichier électoral</h3>
+      <div class="info-group">
+        <label>Nom:</label>
+        <span>{{ basicInfo.nom }}</span>
+      </div>
+      <div class="info-group">
+        <label>Prénom:</label>
+        <span>{{ basicInfo.prenom }}</span>
+      </div>
+      <div class="info-group">
+        <label>Date de naissance:</label>
+        <span>{{ basicInfo.dateNaissance }}</span>
+      </div>
+    </div>
+
+    <!-- Informations complémentaires -->
+    <div class="form-section">
+      <h3>Informations complémentaires</h3>
+      
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input 
+          type="email" 
+          id="email"
+          formControlName="email"
+          class="form-input">
+        <div *ngIf="candidateForm.get('email')?.invalid && candidateForm.get('email')?.touched" class="error-message">
+          Email invalide
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="telephone">Téléphone:</label>
+        <input 
+          type="tel" 
+          id="telephone"
+          formControlName="telephone"
+          class="form-input">
+        <div *ngIf="candidateForm.get('telephone')?.invalid && candidateForm.get('telephone')?.touched" class="error-message">
+          Numéro de téléphone invalide
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="partiPolitique">Nom du parti politique:</label>
+        <input 
+          type="text" 
+          id="partiPolitique"
+          formControlName="partiPolitique"
+          class="form-input">
+      </div>
+
+      <div class="form-group">
+        <label for="slogan">Slogan du parti:</label>
+        <textarea 
+          id="slogan"
+          formControlName="slogan"
+          class="form-textarea"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="photo">Photo du candidat:</label>
+        <input 
+          type="file" 
+          id="photo"
+          (change)="onFileSelected($event)"
+          accept="image/*"
+          class="form-input">
+      </div>
+
+      <div class="colors-section">
+        <h4>Couleurs du parti</h4>
+        <div class="color-inputs">
+          <div class="color-group" *ngFor="let i of [1,2,3]">
+            <label [for]="'color'+i">Couleur {{i}}:</label>
+            <input 
+              [id]="'color'+i"
+              type="color"
+              [formControlName]="'color'+i"
+              class="color-picker">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="url">URL d'informations:</label>
+        <input 
+          type="url" 
+          id="url"
+          formControlName="url"
+          class="form-input">
+        <div *ngIf="candidateForm.get('url')?.invalid && candidateForm.get('url')?.touched" class="error-message">
+          URL invalide
+        </div>
+      </div>
+    </div>
+
+    <button 
+      type="submit"
+      class="submit-button"
+      [disabled]="!candidateForm.valid">
+      Enregistrer la candidature
+    </button>
+  </form>
+
+  <!-- Message de confirmation -->
+  <div *ngIf="submissionMessage" [class]="submissionStatus">
+    {{ submissionMessage }}
+  </div>
+</div>

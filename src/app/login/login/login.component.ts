@@ -20,3 +20,4 @@ export class LoginComponent {
     // Ici, vous pouvez ajouter la logique de connexion
   }
 }
+// http://localhost:5000/api/auth/login
