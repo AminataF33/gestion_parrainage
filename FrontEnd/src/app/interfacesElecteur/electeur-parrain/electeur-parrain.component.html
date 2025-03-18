@@ -1,0 +1,125 @@
+<div class="parrainage-container">
+    <div class="parrainage-card">
+      <div class="header">
+        <h1>Parrainage Électoral</h1>
+        <p class="subtitle">Plateforme officielle de parrainage des candidats</p>
+      </div>
+  
+      <!-- Étape 1: Vérification de l'électeur -->
+      <div *ngIf="etape === 'verification'" class="etape-container">
+        <h2>Vérification de votre carte d'électeur</h2>
+        <p>Veuillez saisir le numéro de votre carte d'électeur pour commencer le processus de parrainage.</p>
+        
+        <div class="form-group">
+          <label for="numeroCarteElecteur">Numéro de carte d'électeur</label>
+          <input 
+            type="text" 
+            id="numeroCarteElecteur" 
+            [(ngModel)]="numeroCarteElecteur" 
+            placeholder="Ex: 12345678"
+            class="form-control"
+          >
+          <small *ngIf="messageErreur" class="error-message">{{ messageErreur }}</small>
+        </div>
+        
+        <button (click)="verifierElecteur()" class="btn-primary">Vérifier</button>
+      </div>
+  
+      <!-- Étape 2: Sélection du candidat -->
+      <div *ngIf="etape === 'selection'" class="etape-container">
+        <h2>Sélection du candidat</h2>
+        
+        <div class="electeur-info">
+          <h3>Informations de l'électeur</h3>
+          <p><strong>Nom:</strong> {{ electeur.nom }}</p>
+          <p><strong>Prénom:</strong> {{ electeur.prenom }}</p>
+          <p><strong>Région:</strong> {{ electeur.region }}</p>
+          <p><strong>Circonscription:</strong> {{ electeur.circonscription }}</p>
+        </div>
+        
+        <h3>Choisissez un candidat à parrainer</h3>
+        <p class="info-text">Vous ne pouvez parrainer qu'un seul candidat. Ce choix est définitif.</p>
+        
+        <div class="candidats-grid">
+          <div 
+            *ngFor="let candidat of candidats" 
+            class="candidat-card" 
+            [class.selected]="candidat.selected"
+            (click)="selectionnerCandidat(candidat)"
+          >
+            <div class="candidat-photo">
+              <img [src]="candidat.photo" [alt]="candidat.nom + ' ' + candidat.prenom">
+            </div>
+            <div class="candidat-info">
+              <h4>{{ candidat.prenom }} {{ candidat.nom }}</h4>
+              <p>{{ candidat.partiPolitique }}</p>
+            </div>
+            <div class="selection-indicator">
+              <span *ngIf="candidat.selected" class="check-icon">✓</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="actions">
+          <button (click)="retour()" class="btn-secondary">Retour</button>
+          <button 
+            (click)="confirmerSelection()" 
+            class="btn-primary" 
+            [disabled]="!candidatSelectionne"
+          >
+            Continuer
+          </button>
+        </div>
+      </div>
+  
+      <!-- Étape 3: Confirmation -->
+      <div *ngIf="etape === 'confirmation'" class="etape-container">
+        <h2>Confirmation de votre parrainage</h2>
+        
+        <div *ngIf="candidatSelectionne" class="confirmation-details">
+          <p>Vous êtes sur le point de parrainer :</p>
+          
+          <div class="candidat-confirmation">
+            <img [src]="candidatSelectionne?.photo" [alt]="candidatSelectionne?.nom + ' ' + candidatSelectionne?.prenom" class="confirmation-photo">
+            <div>
+              <h3>{{ candidatSelectionne?.prenom }} {{ candidatSelectionne?.nom }}</h3>
+              <p>{{ candidatSelectionne?.partiPolitique }}</p>
+            </div>
+          </div>
+          
+          <div class="warning-box">
+            <p><strong>Important :</strong> Ce choix est définitif. Une fois validé, vous ne pourrez plus parrainer un autre candidat.</p>
+          </div>
+        </div>
+        
+        <div class="actions">
+          <button (click)="retour()" class="btn-secondary">Retour</button>
+          <button (click)="validerParrainage()" class="btn-primary">Confirmer mon parrainage</button>
+        </div>
+      </div>
+  
+      <!-- Étape 4: Succès -->
+      <div *ngIf="etape === 'succes'" class="etape-container success-container">
+        <div class="success-icon">✓</div>
+        <h2>Parrainage enregistré avec succès !</h2>
+        
+        <div *ngIf="candidatSelectionne" class="success-details">
+          <p>Vous avez parrainé :</p>
+          <h3>{{ candidatSelectionne?.prenom }} {{ candidatSelectionne?.nom }}</h3>
+          <p>{{ candidatSelectionne?.partiPolitique }}</p>
+        </div>
+        
+        <p>Un récépissé de confirmation vous sera envoyé par SMS.</p>
+        
+        <button (click)="recommencer()" class="btn-secondary">Retour à l'accueil</button>
+      </div>
+  
+      <!-- Étape d'erreur -->
+      <div *ngIf="etape === 'erreur'" class="etape-container error-container">
+        <div class="error-icon">!</div>
+        <h2>Impossible de continuer</h2>
+        <p>{{ messageErreur }}</p>
+        <button (click)="recommencer()" class="btn-secondary">Retour à l'accueil</button>
+      </div>
+    </div>
+  </div>
