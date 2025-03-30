@@ -1,0 +1,36 @@
+<img src="images/LOGO-DGE.jpg" alt="Login Background" class="logo-dge">
+
+<div class="login-container">
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <div class="header">
+      <p>Connectez-vous à votre espace</p>
+    </div>
+
+    <div class="form-group">
+      <label for="username">Nom d'utilisateur:</label>
+      <input 
+        type="text" 
+        id="username"
+        name="username"
+        [(ngModel)]="loginData.username"
+        required>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Mot de passe:</label>
+      <input 
+        type="password" 
+        id="password"
+        name="password"
+        [(ngModel)]="loginData.password"
+        required>
+    </div>
+
+    <button type="submit">Se connecter</button>
+
+    <!-- Affichage du message d'erreur si connexion échoue -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </form>
+</div>

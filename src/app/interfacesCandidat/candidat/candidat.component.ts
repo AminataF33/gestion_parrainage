@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-candidat',
@@ -14,32 +17,37 @@ export class CandidatComponent {
   securityCode: string = '';
   loginError: string | null = null;
 
-  login() {
-    // Reset any previous error
-    this.loginError = null;
+  constructor(private apiService: ApiService, private router: Router) {}
 
-    // Simple validation
+  login() {
+    this.loginError = null;
+  
     if (!this.email || !this.securityCode) {
       this.loginError = 'Veuillez remplir tous les champs';
       return;
     }
-
-    // Here you would typically call a service to authenticate
-    // For demo purposes, we'll just simulate a successful login
-    console.log('Tentative de connexion avec:', {
-      email: this.email,
-      securityCode: this.securityCode
-    });
-
-    // Simulate API call
-    setTimeout(() => {
-      if (this.email === 'test@example.com' && this.securityCode === '123456') {
-        alert('Connexion réussie!');
-        // Here you would redirect to dashboard or home page
-      } else {
-        this.loginError = 'Email ou code de sécurité incorrect';
+  
+    this.apiService.loginCandidat(this.email, this.securityCode).subscribe(
+      (data) => {
+        if (data.success) {
+          // Stocker les informations du candidat dans le localStorage
+          localStorage.setItem('candidat_id', data.candidat_id);
+          localStorage.setItem('candidat_nom', data.nom);
+          localStorage.setItem('candidat_prenom', data.prenom);
+  
+          // Rediriger vers l'espace candidat ou une autre page
+          this.router.navigate(['/layout/dashboard']);
+        } else {
+          this.loginError = data.error;
+        }
+      },
+      (error) => {
+        this.loginError = 'Une erreur s\'est produite lors de la connexion';
       }
-    }, 1000);
+    );
   }
 }
+
+
+
 

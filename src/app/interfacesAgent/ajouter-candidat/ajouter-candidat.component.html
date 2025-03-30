@@ -1,0 +1,45 @@
+<div class="container mt-4">
+  <!-- Message de succès ou d'erreur -->
+  <div *ngIf="messageErreur" class="alert alert-danger" role="alert">
+    {{ messageErreur }}
+  </div>
+  <div *ngIf="electeurTrouve && !messageErreur" class="alert alert-success" role="alert">
+    Électeur trouvé : {{ electeurNomPrenom }}
+  </div>
+
+  <form [formGroup]="candidatForm" (ngSubmit)="ajouterCandidat()">
+    <div class="mb-3">
+      <label for="numero_electeur" class="form-label">Numéro Électeur</label>
+      <input id="numero_electeur" formControlName="numero_electeur" class="form-control" (blur)="verifierElecteur()">
+      <button type="button" class="btn btn-info mt-2" (click)="verifierElecteur()">Vérifier</button>
+      <div *ngIf="verificationEnCours" class="text-warning mt-2">Vérification en cours...</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input id="email" formControlName="email" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label for="telephone" class="form-label">Téléphone</label>
+      <input id="telephone" formControlName="telephone" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label for="parti_politique" class="form-label">Parti Politique</label>
+      <input id="parti_politique" formControlName="parti_politique" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label for="slogan" class="form-label">Slogan</label>
+      <input id="slogan" formControlName="slogan" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label for="site_web" class="form-label">Site Web</label>
+      <input id="site_web" formControlName="site_web" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="!electeurTrouve">Ajouter Candidat</button>
+  </form>
+</div>

@@ -1,0 +1,30 @@
+<div class="container">
+  <h2>Suivi des Parrainages</h2>
+
+  <!-- Filtre journalier uniquement -->
+  <div class="form-group mb-4">
+    <label>Filtrer par date</label>
+    <input 
+      type="date" 
+      [(ngModel)]="selectedDate" 
+      (ngModelChange)="onDateChange()" 
+      class="form-control"
+    >
+  </div>
+
+  <!-- Liste des résultats -->
+  <div *ngIf="candidatesData.length > 0; else noData">
+    <div class="card mb-3" *ngFor="let item of candidatesData">
+      <div class="card-header">
+        {{ item.candidat__electeur__nom }} {{ item.candidat__electeur__prenom }}
+      </div>
+      <div class="card-body">
+        <p>Parrainages validés : {{ item.valides }} / {{ item.total }}</p>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noData>
+    <p>Aucun parrainage trouvé pour cette date.</p>
+  </ng-template>
+</div>

@@ -1,0 +1,74 @@
+<div class="container">
+  <h2 class="mb-4">La course aux parrainages</h2>
+
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+    <p class="mt-2">Chargement des données en cours...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+    <button class="btn btn-sm btn-outline-danger ms-3" (click)="chargerCandidats()">Réessayer</button>
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage">
+    <div class="alert alert-info mb-4">
+      <h4 class="alert-heading">Objectif de validation</h4>
+      <p class="mb-0">
+        Chaque candidat doit obtenir <strong>{{ totalParrainagesRequis | number }}</strong> parrainages validés 
+        pour participer à l'élection.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-body p-0">
+        <table class="table table-striped mb-0">
+          <thead class="thead-dark">
+            <tr>
+              <th style="width: 60%">Candidat</th>
+              <th style="width: 40%">Parrainages validés</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let candidat of candidats">
+              <td>{{ candidat.nom }} {{ candidat.prenom }}</td>
+              <td>
+                <span 
+                  [ngClass]="{
+                    'text-success': candidat.parrainages >= totalParrainagesRequis,
+                    'text-danger': candidat.parrainages < totalParrainagesRequis
+                  }"
+                  class="fw-bold">
+                  {{ candidat.parrainages | number }}
+                </span>
+                <span *ngIf="candidat.parrainages >= totalParrainagesRequis" 
+                      class="badge bg-success ms-2">
+                  Validé
+                </span>
+
+                <div class="progress mt-2" style="height: 20px;">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                       role="progressbar" 
+                       [ngClass]="getProgressionClass(candidat.parrainages)"
+                       [style.width.%]="getProgression(candidat.parrainages)"
+                       [attr.aria-valuenow]="candidat.parrainages"
+                       aria-valuemin="0"
+                       [attr.aria-valuemax]="totalParrainagesRequis">
+                    <span class="progress-text">
+                      {{ getProgression(candidat.parrainages) | number:'1.0-1' }}%
+                    </span>
+                  </div>
+                </div>
+                <small class="text-muted">
+                  {{ candidat.parrainages | number }} / {{ totalParrainagesRequis | number }}
+                </small>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,13 +1,37 @@
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ApiService } from '../../services/api.service';
+import { finalize } from 'rxjs';
+
+
+interface Electeur {
+  id: number;
+  electeur_id?: number;
+  cin: string;
+  numero_electeur: string;
+  nom: string;
+  prenom: string;
+  date_naissance: string;
+  lieu_naissance: string;
+  bureau_vote: string;
+  sexe: 'M'|'F';
+  a_deja_parraine?: boolean;
+}
 
 interface Candidat {
   id: number;
-  nom: string;
-  prenom: string;
-  partiPolitique: string;
-  photo: string;
+  electeur: {
+    id: number;
+    nom: string;
+    prenom: string;
+  };
+  parti_politique: string;
+  email: string;
+  telephone: string;
+  slogan: string;
+  site_web: string;
   selected?: boolean;
 }
 
@@ -20,113 +44,155 @@ interface Candidat {
   styleUrl: './electeur-parrain.component.css'
 })
 export class ElecteurParrainComponent implements OnInit {
-
-  // États de l'interface
   etape: 'verification' | 'selection' | 'confirmation' | 'succes' | 'erreur' = 'verification';
   numeroCarteElecteur: string = '';
-  electeurVerifie: boolean = false;
   messageErreur: string = '';
+  isLoading: boolean = false;
+  electeur: Electeur | null = null;
+  candidats: any[] = [];
+  
   candidatSelectionne: Candidat | null = null;
+  electeurId: number | null = null; // Ajoutez cette propriété à votre classe
+  candidatId: number | null = null; // Ajoutez cette propriété à votre classe
   
-  // Données de l'électeur (simulées)
-  electeur = {
-    nom: '',
-    prenom: '',
-    region: '',
-    circonscription: '',
-    aDejaParraine: false
-  };
-  
-  // Liste des candidats (simulée)
-  candidats: Candidat[] = [
-    {
-      id: 1,
-      nom: 'Diop',
-      prenom: 'Amadou',
-      partiPolitique: 'Parti du Progrès',
-      photo: 'https://images.unsplash.com/photo-1566753323558-f4e0952af115?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'
-    },
-    {
-      id: 2,
-      nom: 'Sow',
-      prenom: 'Fatou',
-      partiPolitique: 'Alliance pour le Développement',
-      photo: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'
-    },
-    {
-      id: 3,
-      nom: 'Ndiaye',
-      prenom: 'Moussa',
-      partiPolitique: 'Union Démocratique',
-      photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'
-    },
-    {
-      id: 4,
-      nom: 'Fall',
-      prenom: 'Aïda',
-      partiPolitique: 'Mouvement Citoyen',
-      photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'
-    }
-  ];
 
-  constructor() { }
+  constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
-    // Initialisation du composant
+    this.loadCandidats();
+    this.verifierElecteur();
   }
 
-  // Vérification du numéro de carte électeur
+  loadCandidats(): void {
+    this.isLoading = true;
+    this.apiService.getCandidats().pipe(
+      finalize(() => this.isLoading = false)
+    ).subscribe({
+      next: (candidats: any[]) => {
+        this.candidats = candidats.map(c => ({
+          // Mappage des champs mal orthographiés
+          id: c.id,
+          electeur: {
+            id: c.electeur,
+            nom: c.nom || 'Nom inconnu',  // 'non' au lieu de 'nom'
+            prenom: c.prenom || 'Prénom inconnu'
+          },
+          parti_politique: c.parti_politique || 'Parti inconnu',
+          slogan: c.slogan || '',
+          selected: false
+        }));
+      },
+      error: (err) => {  }
+    });
+  }
+
+
+
+
+
+
+  
   verifierElecteur(): void {
-    // Simulation de vérification - à remplacer par un appel au service
-    if (this.numeroCarteElecteur && this.numeroCarteElecteur.length >= 8) {
-      // Simulation de récupération des données de l'électeur
-      this.electeur = {
-        nom: 'Sarr',
-        prenom: 'Mamadou',
-        region: 'Dakar',
-        circonscription: 'Parcelles Assainies',
-        aDejaParraine: false
-      };
-      
-      if (this.electeur.aDejaParraine) {
-        this.messageErreur = 'Vous avez déjà parrainé un candidat.';
-        this.etape = 'erreur';
-      } else {
-        this.electeurVerifie = true;
-        this.etape = 'selection';
-      }
-    } else {
-      this.messageErreur = 'Numéro de carte électeur invalide.';
+    if (!this.numeroCarteElecteur || this.numeroCarteElecteur.length < 8) {
+      this.messageErreur = 'Le numéro doit contenir au moins 8 caractères';
+      return;
     }
+
+    this.isLoading = true;
+    this.apiService.verifierElecteur(this.numeroCarteElecteur).pipe(
+      finalize(() => this.isLoading = false)
+    ).subscribe({
+      next: (response: any) => {
+        if (response.exists) {
+          this.electeur = {
+            ...response,
+            id: response.electeur_id,
+            a_deja_parraine: false
+          };
+          this.verifierParrainageExistant(response.electeur_id);
+        } else {
+          this.messageErreur = 'Aucun électeur trouvé avec ce numéro';
+        }
+      },
+      error: (err) => {
+        console.error('Erreur vérification électeur:', err);
+        this.messageErreur = 'Erreur lors de la vérification. Veuillez réessayer.';
+      }
+    });
+  }
+  
+
+
+  verifierParrainageExistant(candidatId: number): void {
+    this.apiService.getParrainagesCandidat(candidatId).subscribe({
+      next: (parrainages) => {
+        if (parrainages && parrainages.length > 0) {
+          this.messageErreur = 'Cet électeur a déjà parrainé un candidat';
+          this.etape = 'erreur';
+        } else {
+          this.etape = 'selection';
+        }
+      },
+      error: (err) => {
+        console.error('Erreur vérification parrainage:', err);
+        this.etape = 'selection'; // On continue malgré l'erreur
+      }
+    });
   }
 
-  // Sélection d'un candidat
   selectionnerCandidat(candidat: Candidat): void {
+
+    // Désélectionner tous les autres candidats
     this.candidats.forEach(c => c.selected = false);
+   
+    
+    // Sélectionner le candidat cliqué
     candidat.selected = true;
     this.candidatSelectionne = candidat;
   }
 
-  // Confirmation du choix
   confirmerSelection(): void {
     if (this.candidatSelectionne) {
       this.etape = 'confirmation';
     }
   }
 
-  // Validation finale du parrainage
+
   validerParrainage(): void {
-    // Simulation de l'enregistrement du parrainage - à remplacer par un appel au service
-    this.etape = 'succes';
-    // Dans un cas réel, on enregistrerait le parrainage dans la base de données
+    if (!this.electeur || !this.candidatSelectionne) {
+      this.messageErreur = 'Données manquantes';
+      return;
+    }
+  
+    this.isLoading = true;
+    
+    this.apiService.creerParrainage(this.electeur.id, this.candidatSelectionne.id).subscribe({
+      next: (response) => {
+        console.log('Réponse:', response);
+        this.etape = 'succes';
+        if (this.electeur) {
+          this.electeur.a_deja_parraine = true;
+        }
+      },
+      error: (err) => {
+        console.error('Erreur:', err);
+        this.messageErreur = err.message;
+        this.etape = 'erreur';
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
   }
 
-  // Retour à l'étape précédente
+
+
+
   retour(): void {
     switch (this.etape) {
       case 'selection':
         this.etape = 'verification';
-        this.electeurVerifie = false;
+        this.electeur = null;
         break;
       case 'confirmation':
         this.etape = 'selection';
@@ -134,15 +200,17 @@ export class ElecteurParrainComponent implements OnInit {
       default:
         break;
     }
+    this.messageErreur = '';
   }
 
-  // Recommencer le processus
   recommencer(): void {
     this.etape = 'verification';
     this.numeroCarteElecteur = '';
-    this.electeurVerifie = false;
+    this.electeur = null;
     this.candidatSelectionne = null;
     this.candidats.forEach(c => c.selected = false);
+    this.messageErreur = '';
   }
+
 
 }

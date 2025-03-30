@@ -1,24 +1,26 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './login/login/login.component'
-import { DashbordComponent } from './pages/dashbord/dashbord.component'
-import { GererPeriodeParrainageComponent } from './gerer-periode-parrainage/gerer-periode-parrainage.component';
-import { AjouterCandidatComponent } from './ajouter-candidat/ajouter-candidat.component';
-import { ImporterListeComponent } from './importer-liste/importer-liste.component';
-import { MonitoringComponent } from './monitoring/monitoring.component';
-import { StatistiquesComponent } from './statistiques/statistiques.component';
-import { LogoutComponent } from './logout/logout.component';
-import { AfficherCandidatsComponent } from './afficher-candidats/afficher-candidats.component';
+import { LoginComponent } from './interfacesAgent/login/login.component'
+import { SupportComponent } from './interfacesAgent/support/support.component'
+import { GererPeriodeParrainageComponent } from './interfacesAgent/gerer-periode-parrainage/gerer-periode-parrainage.component';
+import { AjouterCandidatComponent } from './interfacesAgent/ajouter-candidat/ajouter-candidat.component';
+import { ImporterListeComponent } from './interfacesAgent/importer-liste/importer-liste.component';
+import { MonitoringComponent } from './interfacesAgent/monitoring/monitoring.component';
+import { StatistiquesComponent } from './interfacesAgent/statistiques/statistiques.component';
+import { LogoutComponent } from './interfacesAgent/logout/logout.component';
+import { AfficherCandidatsComponent } from './interfacesAgent/afficher-candidats/afficher-candidats.component';
 import { CandidatComponent } from './interfacesCandidat/candidat/candidat.component';
 import { DashboardComponent } from './interfacesCandidat/dashboard/dashboard.component';
 import { ProfilComponent } from './interfacesCandidat/profil/profil.component';
 import { LayoutComponent } from './interfacesCandidat/layout/layout.component';
 import { ElecteurParrainComponent } from './interfacesElecteur/electeur-parrain/electeur-parrain.component';
+import { AccueilComponent } from './accueil/accueil.component';
 
 
 export const routes: Routes = [
-    {path : '',
-     component : LoginComponent   
-    },
+
+    { path: '', component: AccueilComponent },
+
+    { path: 'elcteur', component: ElecteurParrainComponent },
     {path : 'layout',
         component: LayoutComponent,
         children : [
@@ -40,15 +42,13 @@ export const routes: Routes = [
     {path : 'electeur',
         component:  ElecteurParrainComponent 
     },   
-   /* {path: 'candidat',
-    loadChildren: () => import('./candidat/candidat.routes').then(m => m.CANDIDAT_ROUTES)
-    }, */
+
     
     {path : 'login',
      component: LoginComponent    
     },
-    {path : 'dashbord',
-        component : DashbordComponent,
+    {path : 'support',
+        component : SupportComponent,
         children : [ 
             
            {path : 'ajouter-candidat',

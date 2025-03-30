@@ -1,0 +1,100 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.sidenav {
+  height: 100vh;
+  width: 250px; /* Largeur réduite pour mieux s'adapter */
+  background: #111827;
+  position: fixed;
+  z-index: 100;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Empêche tout débordement */
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem 1rem; /* Padding réduit */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0; /* Empêche le rétrécissement */
+}
+
+.logo {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  width: 36px; /* Taille réduite */
+  height: 36px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.logo-text {
+  margin-left: 0.75rem;
+  font-size: 1.1rem; /* Taille de police réduite */
+  font-weight: 600;
+  color: white;
+}
+
+.sidenav-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0; /* Padding réduit */
+  gap: 0.25rem; /* Espacement réduit entre les items */
+  overflow: hidden; /* Supprime le scroll */
+}
+
+.sidenav-nav-item {
+  padding: 0 0.75rem; /* Padding réduit */
+}
+
+.sidenav-nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0.8rem; /* Padding réduit */
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  font-size: 0.9rem; /* Taille de police réduite */
+}
+
+.sidenav-link-icon {
+  width: 20px; /* Taille réduite */
+  margin-right: 0.75rem;
+  font-size: 1rem; /* Taille réduite */
+}
+
+/* Styles actifs et hover restent identiques */
+.sidenav-nav-link.active {
+  background-color: white !important;
+  color: #111827 !important;
+  border: 2px solid #3b82f6;
+}
+
+.sidenav-nav-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Version pour écrans plus petits */
+@media (max-height: 700px) {
+  .logo-container {
+    padding: 1rem 0.75rem;
+  }
+  
+  .sidenav-nav-link {
+    padding: 0.5rem 0.6rem;
+  }
+  
+  .sidenav-link-icon {
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+  }
+}

@@ -1,54 +1,54 @@
 <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header bg-success text-white">
-            <h2 class="mb-0">Espace Candidat - Connexion</h2>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header" style="background-color: #28a745; color: white;">
+          <h2 class="mb-0">Espace Candidat - Connexion</h2>
+        </div>
+        <div class="card-body">
+          <div class="alert" style="background-color: #e6f7ed; border-color: #28a745; color: #28a745;">
+            <p>Connectez-vous à votre espace candidat pour suivre l'évolution de vos parrainages.</p>
           </div>
-          <div class="card-body">
-            <div class="alert alert-info">
-              <p>Connectez-vous à votre espace candidat pour suivre l'évolution de vos parrainages.</p>
+          
+          <form (ngSubmit)="login()" #loginForm="ngForm">
+            <div class="mb-3">
+              <label for="email" class="form-label">Adresse email</label>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="email" 
+                name="email" 
+                [(ngModel)]="email" 
+                required
+                placeholder="Votre adresse email"
+              >
             </div>
             
-            <form (ngSubmit)="login()" #loginForm="ngForm">
-              <div class="mb-3">
-                <label for="email" class="form-label">Adresse email</label>
-                <input 
-                  type="email" 
-                  class="form-control" 
-                  id="email" 
-                  name="email" 
-                  [(ngModel)]="email" 
-                  required
-                  placeholder="Votre adresse email"
-                >
-              </div>
-              
-              <div class="mb-3">
-                <label for="securityCode" class="form-label">Code de sécurité</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  id="securityCode" 
-                  name="securityCode" 
-                  [(ngModel)]="securityCode" 
-                  required
-                  placeholder="Code de sécurité reçu par email/SMS"
-                >
-              </div>
-              
-              <div *ngIf="loginError" class="alert alert-danger">
-                {{loginError}}
-              </div>
-              
-              <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-success" [disabled]="!loginForm.form.valid">
-                  Se connecter
-                </button>
-              </div>
-            </form>
-          </div>
+            <div class="mb-3">
+              <label for="securityCode" class="form-label">Code de sécurité</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="securityCode" 
+                name="securityCode" 
+                [(ngModel)]="securityCode" 
+                required
+                placeholder="Code de sécurité reçu par email/SMS"
+              >
+            </div>
+            
+            <div *ngIf="loginError" class="alert" style="background-color: #f8d7da; border-color: #f5c6cb; color: #721c24;">
+              {{ loginError }}
+            </div>
+            
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn" style="background-color: #28a745; color: white;" [disabled]="!loginForm.form.valid">
+                Se connecter
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
+</div>

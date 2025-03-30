@@ -1,0 +1,37 @@
+<div class="sidenav">
+  <div class="logo-container">
+    <button class="logo">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="logo-text">Back Office DGE</div>
+    
+  </div>
+
+  <nav class="sidenav-nav">
+    @for (item of items; track $index) {
+      <div class="sidenav-nav-item">
+        @if (item.label !== 'Déconnexion') {
+          <a
+            class="sidenav-nav-link"
+            [routerLink]="item.routeLink"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <i class="sidenav-link-icon" [ngClass]="item.icon"></i>
+            <span class="sidenav-link-text">{{ item.label }}</span>
+          </a>
+        }
+        @else {
+          <a 
+            class="sidenav-nav-link"
+            (click)="confirmLogout()"
+            [class.active]="isLogoutActive()"
+          >
+            <i class="sidenav-link-icon" [ngClass]="item.icon"></i>
+            <span class="sidenav-link-text">{{ item.label }}</span>
+          </a>
+        }
+      </div>
+    }
+  </nav>
+</div>

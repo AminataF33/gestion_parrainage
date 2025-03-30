@@ -1,0 +1,17 @@
+.container {
+  max-width: 600px;
+  margin: auto;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+input.form-control {
+  border-radius: 0.375rem;
+  border-color: #ced4da;
+}
+
+button {
+  margin-top: 15px;
+}

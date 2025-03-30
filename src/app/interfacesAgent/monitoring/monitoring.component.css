@@ -1,0 +1,28 @@
+.container {
+    margin-top: 20px;
+  }
+  
+  .candidate {
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .candidate-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  button {
+    margin-top: 10px;
+  }
+  
+  form {
+    margin-bottom: 20px;
+  }
+  .card-header {
+
+  background-color: rgb(27, 213, 226);
+  }

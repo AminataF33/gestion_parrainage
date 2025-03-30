@@ -1,0 +1,33 @@
+<form [formGroup]="periodeForm" (ngSubmit)="onSubmit()" class="periode-form">
+  <h2>Définir la période de parrainage</h2>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Date de début</mat-label>
+    <input matInput type="datetime-local" formControlName="date_debut" required>
+    <mat-error *ngIf="periodeForm.get('date_debut')?.hasError('required')">
+      Ce champ est obligatoire
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Date de fin</mat-label>
+    <input matInput type="datetime-local" formControlName="date_fin" required>
+    <mat-error *ngIf="periodeForm.get('date_fin')?.hasError('required')">
+      Ce champ est obligatoire
+    </mat-error>
+    <mat-error *ngIf="periodeForm.hasError('dateInvalide')">
+      La date de fin doit être postérieure à la date de début
+    </mat-error>
+  </mat-form-field>
+
+  <mat-checkbox formControlName="est_active">Activer immédiatement</mat-checkbox>
+
+  <button 
+    mat-raised-button 
+    color="primary" 
+    type="submit" 
+    [disabled]="!periodeForm.valid"
+  >
+    Enregistrer
+  </button>
+</form>

@@ -1,0 +1,27 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Liste des Candidats</h2>
+
+  <!-- Affichage des candidats -->
+  <div *ngFor="let candidat of candidats" class="card mb-3">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5>{{ candidat.nom }} {{ candidat.prenom }}</h5>
+      <button class="btn btn-info" (click)="toggleDetails(candidat)">
+        {{ candidat.showDetails ? 'Masquer les détails' : 'Afficher les détails' }}
+      </button>
+    </div>
+    <div *ngIf="candidat.showDetails" class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Parti politique:</strong> {{ candidat.parti_politique }}</p>
+          <p><strong>Email:</strong> {{ candidat.email }}</p>
+          <p><strong>Téléphone:</strong> {{ candidat.telephone }}</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Slogan:</strong> {{ candidat.slogan }}</p>
+          <p><strong>Site Web:</strong> {{ candidat.site_web }}</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

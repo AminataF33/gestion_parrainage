@@ -1,0 +1,24 @@
+<div class="error-container">
+    <h2>Accès restreint</h2>
+    
+    <ng-container [ngSwitch]="reason">
+      <p *ngSwitchCase="'no-period'">
+        Aucune période de parrainage n'est actuellement configurée.
+      </p>
+      <p *ngSwitchCase="'period-ended'">
+        La période de parrainage est terminée.
+      </p>
+      <p *ngSwitchCase="'api-error'">
+        Service temporairement indisponible.
+      </p>
+      <p *ngSwitchDefault>
+        Les parrainages ne sont pas autorisés actuellement.
+      </p>
+    </ng-container>
+
+    <p *ngIf="returnUrl">
+      Vous tentiez d'accéder à : <code>{{ returnUrl }}</code>
+    </p>
+
+    <button mat-button routerLink="/">Retour à l'accueil</button>
+  </div>
