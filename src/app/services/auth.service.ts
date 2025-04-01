@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api';  // URL de l'API Django pour obtenir un token
+ // private apiUrl = 'http://localhost:8000/api';  // URL de l'API Django pour obtenir un token
+ private apiUrl = 'https://parrainage-backend-django-zqai.onrender.com/api';
 
   constructor(private http: HttpClient, private router: Router) {}
 

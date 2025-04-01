@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 })
 export class ApiService {
 
-  private apiUrl = 'http://127.0.0.1:8000/api'; // URL de ton backend Django
+  //private apiUrl = 'http://127.0.0.1:8000/api'; // URL de ton backend Django - DEV
+  private apiUrl = 'https://parrainage-backend-django-zqai.onrender.com/api'; // URL de ton backend Django -PROD
 
   constructor(private http: HttpClient, private router: Router) {}
 
